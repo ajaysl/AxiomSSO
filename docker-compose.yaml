@@ -1,0 +1,15 @@
+version: "3.9"
+services:
+  saml:
+    build:
+      context: ./saml2
+      dockerfile: Dockerfile
+    ports:
+      - "5556:5556"
+    
+  openid:
+    build:
+      context: ./openid-connect
+      dockerfile: Dockerfile
+    ports:
+      - "5555:5555"

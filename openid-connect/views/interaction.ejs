@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=Roboto&family=Russo+One&display=swap");
+      @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400&display=swap");
+      @import url("https://fonts.googleapis.com/css2?family=Nunito:wght@400&display=swap");
+
+      section {
+        width: 35%;
+        margin: 0 auto;
+        padding: 0.8rem;
+        overflow-x: hidden;
+        background-color: #fcfcfc;
+        border: 1px solid #ccc;
+        box-shadow: 0 0 5px 0 rgba(46, 46, 46, 0.2);
+      }
+
+      h1 {
+        font-family: "Russo One", sans-serif;
+        font-size: 1.5rem;
+        text-align: center;
+        margin: 0;
+        font-weight: normal;
+      }
+
+      span {
+        color: rgb(82, 182, 154);
+      }
+
+      .h3 {
+        margin-bottom: 0;
+      }
+
+      .email {
+        margin: 0;
+        color: rgba(55, 55, 253, 0.856);
+      }
+
+      ul {
+        color: rgb(70, 70, 70);
+      }
+
+      ul li {
+        font-family: "Poppins", sans-serif;
+
+        list-style-type: none;
+        font-size: 10px;
+      }
+
+      a {
+        text-decoration: none;
+        color: rgba(55, 55, 253, 0.856);
+      }
+
+      h4 {
+        font-family: "Poppins", sans-serif;
+        color: rgba(58, 58, 58, 0.904);
+        margin-bottom: 0;
+      }
+
+      .conditionsParagraph {
+        margin-top: 0;
+        padding: 0 2.3rem;
+        font-family: "Nunito", sans-serif;
+        color: rgb(112, 112, 112);
+        font-size: 0.7rem;
+      }
+
+      .btn-container {
+        display: flex;
+        flex-direction: row;
+        width: 50%;
+        justify-content: space-between;
+        margin: 2rem auto;
+      }
+
+      .btn {
+        padding: 0.3rem 0.8rem;
+        font-family: "Poppins", sans-serif;
+        border: none;
+      }
+
+      .btn-primary {
+        background-color: rgb(82, 182, 154);
+        color: #fff;
+      }
+
+      .btn-secondary {
+        background-color: rgb(175, 175, 175);
+        color: #fff;
+      }
+
+      @media (max-width: 768px) {
+        section {
+          width: 99%;
+        }
+      }
+    </style>
+    <title>Consent Page</title>
+  </head>
+
+  <body>
+    <section>
+      <h1>Password <span>{Less}</span></h1>
+      <h3 class="h3">Welcome </h3>
+
+      <p>
+        <a href="https://home.passwordless4u.com" class="clientName"></a>
+        wants to
+      </p>
+
+      <figure id="scopes"></figure>
+
+      <div>
+        <h4>Allow <span class="clientName"> </span> to do this?</h4>
+        <p class="conditionsParagraph">
+          Lorem ipsum dolor sit amet consectetur adipisicing elit. Sapiente
+          eveniet molestias cum? Vitae reprehenderit harum expedita neque quas
+          maiores vel est libero aut distinctio eius, accusamus porro fuga,
+          quaerat ipsa!
+        </p>
+      </div>
+      <div class="btn-container">
+        <a class="btn btn-secondary" href="/authenticate/<%= uid %>/abort"
+          >Deny</a
+        >
+        <form
+          autoComplete="off"
+          action="/authenticate/<%= uid %>/confirm"
+          method="post"
+        >
+          <button autofocus type="submit" class="btn btn-primary">
+            Continue
+          </button>
+        </form>
+      </div>
+    </section>
+
+    <script>
+
+
+      const client = <%- JSON.stringify(client) %>;
+
+      document.querySelector(".clientName").innerHTML = client?.clientName || "OpenID Connect Client";
+      const details = <%- JSON.stringify(details) %>;
+
+    
+
+      const scopeContainer = document.getElementById("scopes");
+
+
+
+
+      if ("missingOIDCScope" in details && details["missingOIDCScope"].length > 0) {
+
+        details["missingOIDCScope"].forEach(scope => {
+
+          var temp = document.createElement('div');
+          const data = ` <figcaption>${scope}</figcaption>
+                      <ul>
+                        <li>
+                          Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                          Expedita soluta dolore,
+                        </li>
+                      </ul>`
+          temp.innerHTML = data;
+          while (temp.firstChild) {
+            scopeContainer.appendChild(temp.firstChild);
+          }
+        })
+      }
+
+      if ("missingResourceScopes" in details) {
+        Object.keys(details["missingResourceScopes"]).forEach(item => {
+
+          var temp = document.createElement('div');
+          const data = ` <figcaption>${item} </figcaption>
+
+                          <ul>
+                            ${details["missingResourceScopes"][item].map(scope => `<li>${scope}</li>`).join('')}
+                      </ul>`
+
+
+
+          temp.innerHTML = data;
+          while (temp.firstChild) {
+            scopeContainer.appendChild(temp.firstChild);
+          }
+
+        })
+
+
+
+
+
+      }
+    </script>
+  </body>
+</html>
