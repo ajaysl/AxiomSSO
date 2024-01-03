@@ -2,11 +2,14 @@ import Account from "./account.js";
 import MongoAdapter from "../Adapter/mongo.js";
 
 const resourceInfo = async (ctx, resourceIndicator, client) => {
+  console.log({resourceIndicator})
   const resource = await MongoAdapter.coll("resource").findOne({
     resourceIndicator,
     clientId: client.clientId,
   });
+  
   if (!resource) return ctx.throw(404, "Resource not found");
+  console.log({resource});
   return {
     scope: resource.scope,
     accessTokenTTL: resource.accessTokenTTL,

@@ -28,6 +28,7 @@ const route = (app, provider) => {
       const { uid, prompt, params,session, } = interaction;
       
       const client = await provider.Client.find(params.client_id);
+      //console.log({client})
       if(prompt.name ==="consent" ){
         return res.render("interaction", {
           client,
@@ -93,14 +94,17 @@ const route = (app, provider) => {
     body,
     async (req, res, next) => {
       try {
+        console.log("in side confirm", req.body);
         const interactionDetails = await provider.interactionDetails(req, res);
 
+        console.log({interactionDetails});
         const {
           prompt: { name, details },
           params,
           session: { accountId },
         } = interactionDetails;
         assert.equal(name, "consent");
+        console.log({details})
 
         // const User = await OIDCUsers.findOne({ userId: accountId });
         // let grantedResourcesToUser;

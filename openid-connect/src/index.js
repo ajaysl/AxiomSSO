@@ -8,6 +8,7 @@ import cookieParser from "cookie-parser";
 //import RedisAdapter from "./Adapter/redis.adapter.js";
 import dotenv from "dotenv";
 import { createProvider } from "./Provider/index.js";
+// import cors from "cors";
 dotenv.config();
 
 const app = express();
@@ -34,7 +35,7 @@ app.use(
     if (prod) {
       app.enable("trust proxy");
       oidc.proxy = true;
-
+      // app.use(cors());
       app.use((req, res, next) => {
         if (req.secure) {
           next();
