@@ -134,8 +134,7 @@
     const client = <%- JSON.stringify(client) %>;
     console.log({ client });
 
-    const user = <%- JSON.stringify(user) %>;
-    console.log({ user });
+    
 
     document.querySelector(".clientName").innerHTML = client?.clientName || "OpenID Connect Client";
     const details = <%- JSON.stringify(details) %>;
