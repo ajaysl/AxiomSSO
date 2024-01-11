@@ -22,34 +22,32 @@ class Account {
 
     if (this.profile) {
       return {
-        sub: this.accountId, // it is essential to always return a sub claim
-        email: this.profile.email,
-        email_verified: this.profile.email_verified,
-        family_name: this.profile.family_name,
-        given_name: this.profile.given_name,
-        locale: this.profile.locale,
-        name: this.profile.name,
-        address: {
-          country: this.profile.address?.country,
-          city: this.profile.address?.city,
-          postal_code: this.profile.address?.postal_code,
-          region: this.profile.address?.region,
-          street_address: this.profile.address?.street_address,
-        },
-        birthdate: this.profile.birthdate,
-        middle_name: this.profile.middle_name,
-
-        nickname: this.profile.nickname,
-        phone_number: this.profile.phone_number,
-        phone_number_verified: this.profile.phone_number_verified,
-        picture: this.profile.picture,
-        preferred_username: this.profile.preferred_username,
-        profile: this.profile.profile,
-        updated_at: this.profile.updated_at,
-        website: this.profile.website,
-        zoneinfo: this.profile.zoneinfo,
+          userid: this.profile.userid,
+          accountid: this.profile.accountid,
+          username:this.profile.username,
+          password:this.profile.password,
+          phone:this.profile.phone,
+          email:this.profile.email,
+          status:this.profile.status,
+          attempts:this.profile.attempts,
+          groupid:this.profile.groupid,
+          accesstill:this.profile.accesstill,
+          accessfrom:this.profile.accessfrom,
+          defaulttoken:this.profile.defaulttoken,
+          createdon:this.profile.createdon,
+          updatedon:this.profile.updatedon,
+          lastlogindate:this.profile.lastlogindate,
+          passwordupdatedOn:this.profile.passwordupdatedOn,
+          multiDeviceStatus:this.profile.multiDeviceStatus,
+          logincount:this.profile.logincount,
+          lastinvalidattempton:this.profile.lastinvalidattempton,
+          userimage:this.profile.userimage,
+          userPatternPassword:this.profile.userPatternPassword,
+          
+        
       };
     }
+    console.log(this.profile);
 
     return {
       sub: this.accountId, // it is essential to always return a sub claim

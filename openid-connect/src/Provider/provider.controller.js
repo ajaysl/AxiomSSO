@@ -21,17 +21,58 @@ const route = (app, provider) => {
     next();
   }
 
-  app.get("/authenticate/:uid", setNoCache, async (req, res, next) => {
+  // app.get("/authenticate/:uid", setNoCache, async (req, res, next) => {
+  //   try {
+  //     console.log({req})
+    
+  //     const interaction = await provider.interactionDetails(req, res);
+  //     const { uid, prompt, params,session, } = interaction;
+      
+  //     const client = await provider.Client.find(params.client_id);
+  //     // console.log(req.body)
+  //     if(prompt.name ==="consent" ){
+  //       return res.render("interaction", {
+  //         client,
+  //         user:"aj",
+  //         uid,
+  //         details: prompt.details,
+  //         params,
+  //         title: "Authorize",      
+  //       });
+  //     }
+
+  //     else if(prompt.name ==="login") {
+  //       res.cookie("uid", req.params.uid);
+  //       res.cookie("_interaction", req.cookies["_interaction"]);
+  //       res.cookie("connect.sid", req.cookies["connect.sid"]);
+  //       res.cookie("_interaction.sig", req.cookies["_interaction.sig"]);
+  //       return res.redirect(`${client.requestUris[0]}?requestId=${uid}`);
+  //     }
+      
+
+  //     return undefined;
+  //   } catch (err) {
+  //     return next(err);
+  //   }
+  // });
+
+
+
+
+
+  app.get("/authenticate/:uid/:axiomUserId", setNoCache, async (req, res, next) => {
     try {
+      
     
       const interaction = await provider.interactionDetails(req, res);
-      const { uid, prompt, params,session, } = interaction;
-      
+      const { uid, prompt, params,session, axiomUserId} = interaction;
+      console.log({axiomUserId})
       const client = await provider.Client.find(params.client_id);
-      //console.log({client})
+      // console.log(req.body)
       if(prompt.name ==="consent" ){
         return res.render("interaction", {
           client,
+          user:"aj",
           uid,
           details: prompt.details,
           params,
@@ -68,19 +109,29 @@ const route = (app, provider) => {
         const {
           prompt: { name },
         } = await provider.interactionDetails(req, res);
-
+        console.log("BODY DATA",JSON.stringify(req.body))
         const account = await Account.findByLogin(req.body);
 
         const result = {
           login: {
             accountId: account.accountId,
+          //  ...req.body
           },
         };
 
+        //console.log({result});
         
         const redirectTo = await provider.interactionResult(req, res, result);
         
-        return res.redirect(redirectTo);
+        
+        // const queryParams = new URLSearchParams(result.login).toString();
+        // //console.log({queryParams})
+        // const finalURL= `${redirectTo}?${queryParams}`
+        // console.log({finalURL});
+        // // return res.redirect(redirectTo);
+        // res.query=result.login;
+        // req.query=result.login;
+        return res.redirect(`${redirectTo}/${req.body.userid}`);
       } catch (err) {
         console.log(err);
         next(err);
