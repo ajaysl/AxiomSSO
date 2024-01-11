@@ -191,8 +191,9 @@ const route = (app, provider) => {
         console.log({stateParams});
 
         // Set a cookie with axiomUserId
-        res.cookie('axiomUserId', axiomUserId, { httpOnly: true });
-        res.cookie('axiomAccountId', axiomAccountId, { httpOnly: true });
+        
+        res.cookie("axiomUserId", axiomUserId);
+        res.cookie("axiomAccountId", axiomAccountId);
         // const finalUser=
         await provider.interactionFinished(req, res, result, {
           mergeWithLastSubmission: true,

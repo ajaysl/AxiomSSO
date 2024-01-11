@@ -109,7 +109,7 @@
       <center>
         <h4><span class="clientName"> </span> want to access your login cridentals</h4>
       </center>
-      
+      <ul id="oidcScopesList" style="margin-left: 10px ;"></ul>
       <!-- <p class="requestUris"></p> -->
       <!-- <p class="conditionsParagraph">
         Lorem ipsum dolor sit amet consectetur adipisicing elit. Sapiente
@@ -140,6 +140,22 @@
     const details = <%- JSON.stringify(details) %>;
     console.log({ details });
     const requestUrisContainer = document.querySelector(".requestUris");
+
+
+
+    const oidcScopesListContainer = document.getElementById("oidcScopesList");
+    // const details = {
+    //   "missingOIDCScope": ["openid", "profile"]
+    // };
+
+    // Check if "missingOIDCScope" is in details
+    if ("missingOIDCScope" in details) {
+      details.missingOIDCScope.forEach((scope) => {
+        const listItem = document.createElement("li");
+        listItem.textContent = scope;
+        oidcScopesListContainer.appendChild(listItem);
+      });
+    }
 
     // Check if requestUris is an array
     if (Array.isArray(client?.requestUris)) {
