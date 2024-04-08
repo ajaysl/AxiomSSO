@@ -71,6 +71,10 @@ router.post("/", async (req, res) => {
 });
 
 router.delete("/:resourceId", async (req, res) => {
+  const resourceId = req.params.resourceId;
+  if (!resourceId) {
+    return res.status(400).send({ message: "Resource id is not valid" });
+  }
   try {
     await MongoAdapter.coll("resource").deleteOne({
       resourceId,
