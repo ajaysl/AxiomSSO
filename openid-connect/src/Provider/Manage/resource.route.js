@@ -70,6 +70,34 @@ router.post("/", async (req, res) => {
   }
 });
 
+router.patch("/:resourceId", async (req, res) =>{
+  try {
+    const resourceId = req.params.resourceId;
+    const { scope, resourceIndicator } = req.body;
+    console.log({ scope, resourceIndicator , data: req.body})
+    if (scope  && typeof scope !== "string") {
+      return res.status(400).send({ message: "Scope is not valid" });
+    }
+    if (resourceIndicator && !validUrl.isUri(resourceIndicator)) {
+      return res.status(400).send({
+        message: "Resource indicator is not valid",
+      });
+    }
+    // update resource
+    await MongoAdapter.coll("resource").updateOne(
+      { resourceId },
+      { $set: { scope, resourceIndicator, ...req.body } }
+    );
+    return res.status(200).send({
+      message: "Resource updated successfully",
+    });
+
+  }catch (err) {
+    return res.status(500).json({ message: err.message });
+  }
+    
+})
+
 router.delete("/:resourceId", async (req, res) => {
   const resourceId = req.params.resourceId;
   if (!resourceId) {
