@@ -23,34 +23,31 @@ const route = (app, provider) => {
 
   app.get("/authenticate/:uid", setNoCache, async (req, res, next) => {
     try {
-       console.log({req})
-    
+      console.log({ req });
+
       const interaction = await provider.interactionDetails(req, res);
-      
-      const { uid, prompt, params,session,lastSubmission } = interaction;
-      
+
+      const { uid, prompt, params, session, lastSubmission } = interaction;
+
       const client = await provider.Client.find(params.client_id);
-      console.log(req.body)
-      if(prompt.name ==="consent" ){
+      console.log(req.body);
+      if (prompt.name === "consent") {
         return res.render("interaction", {
           client,
-          axiomUserId:lastSubmission?.login?.axiomUserId || '',   
+          axiomUserId: lastSubmission?.login?.axiomUserId || "",
           uid,
           details: prompt.details,
           params,
-          title: "Authorize",      
+          title: "Authorize",
         });
-      }
-
-      else if(prompt.name ==="login") {
+      } else if (prompt.name === "login") {
         res.cookie("uid", req.params.uid);
         res.cookie("_interaction", req.cookies["_interaction"]);
         res.cookie("connect.sid", req.cookies["connect.sid"]);
         res.cookie("_interaction.sig", req.cookies["_interaction.sig"]);
-        
+
         return res.redirect(`${client.requestUris[0]}?requestId=${uid}`);
       }
-      
 
       return undefined;
     } catch (err) {
@@ -58,37 +55,28 @@ const route = (app, provider) => {
     }
   });
 
-
-
-
-
   app.post(
     "/authenticate/:uid/login",
     setNoCache,
     express.urlencoded({ extended: true }),
     async (req, res, next) => {
       try {
-        
-
-        
-        
-
         const {
           prompt: { name },
         } = await provider.interactionDetails(req, res);
-        console.log("BODY DATA",JSON.stringify(req.body))
+        console.log("BODY DATA", JSON.stringify(req.body));
         const account = await Account.findByLogin(req.body);
 
         const result = {
           login: {
             accountId: account.accountId,
-            axiomUserId:req?.body?.userid,
-            axiomAccountId:req?.body?.accountid,
+            axiomUserId: req?.body?.userid,
+            axiomAccountId: req?.body?.accountid,
           },
         };
 
         const redirectTo = await provider.interactionResult(req, res, result);
-                
+
         return res.redirect(`${redirectTo}`);
       } catch (err) {
         console.log(err);
@@ -96,6 +84,32 @@ const route = (app, provider) => {
       }
     }
   );
+
+  app.post("/authenticate/:uid/logout", setNoCache, async (req, res, next) => {
+    try {
+      const interaction = await provider.interactionDetails(req, res);
+
+      const {  params,} = interaction;
+console.log({params});
+      const client = await provider.Client.find(params.client_id);
+      console.log({ client})
+      if (client) {
+        // Invalidate the session
+        await provider.interactionFinished(req, res, {
+          logout: {
+            postLogoutRedirectUri: client.postLogoutRedirectUris[0],
+          },
+        });
+
+        // Redirect the user to the post-logout URI
+        res.redirect(client.postLogoutRedirectUris[0]);
+      } else {
+        res.status(404).json({ error: "Client not found" });
+      }
+    } catch (err) {
+      next(err);
+    }
+  });
 
   app.post(
     "/authenticate/:uid/confirm",
@@ -111,12 +125,12 @@ const route = (app, provider) => {
           prompt: { name, details },
           params,
           session: { accountId },
-          lastSubmission
+          lastSubmission,
         } = interactionDetails;
         assert.equal(name, "consent");
-        console.log({lastSubmission})
-        const axiomUserId=lastSubmission?.login?.axiomUserId || '';
-        const axiomAccountId=lastSubmission?.login?.axiomAccountId || '';
+        console.log({ lastSubmission });
+        const axiomUserId = lastSubmission?.login?.axiomUserId || "";
+        const axiomAccountId = lastSubmission?.login?.axiomAccountId || "";
 
         // const User = await OIDCUsers.findOne({ userId: accountId });
         // let grantedResourcesToUser;
@@ -147,7 +161,6 @@ const route = (app, provider) => {
         }
 
         if (details.missingOIDCScope) {
-          
           grant.addOIDCScope(details.missingOIDCScope.join(" "));
         }
         if (details.missingOIDCClaims) {
@@ -172,8 +185,6 @@ const route = (app, provider) => {
 
         grantId = await grant.save();
 
-        
-
         const consent = {};
 
         if (!interactionDetails.grantId) {
@@ -186,20 +197,19 @@ const route = (app, provider) => {
           axiomAccountId,
           // Add other parameters as needed
         };
-        
-        const result = { consent,lastSubmission };
-        console.log({stateParams});
+
+        const result = { consent, lastSubmission };
+        console.log({ stateParams });
 
         // Set a cookie with axiomUserId
-        
+
         res.cookie("axiomUserId", axiomUserId);
         res.cookie("axiomAccountId", axiomAccountId);
         // const finalUser=
         await provider.interactionFinished(req, res, result, {
           mergeWithLastSubmission: true,
-          
         });
-        
+
         // res.send({...interactionDetails})
 
         //console.log({finalUser});

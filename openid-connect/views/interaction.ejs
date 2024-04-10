@@ -1,220 +1,229 @@
 <!DOCTYPE html>
 <html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=Roboto&family=Russo+One&display=swap");
+      @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400&display=swap");
+      @import url("https://fonts.googleapis.com/css2?family=Nunito:wght@400&display=swap");
 
-<head>
-  <meta charset="UTF-8" />
-  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <style>
-    @import url("https://fonts.googleapis.com/css2?family=Roboto&family=Russo+One&display=swap");
-    @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400&display=swap");
-    @import url("https://fonts.googleapis.com/css2?family=Nunito:wght@400&display=swap");
-
-    section {
-      width: 30%;
-      margin: auto;
-      padding: 1.8rem;
-      overflow-x: hidden;
-      background-color: #fcfcfc;
-      border: 1px solid #ccc;
-      box-shadow: 0 0 5px 0 rgba(46, 46, 46, 0.2);
-
-      /* Center horizontally and vertically */
-      position: absolute;
-      top: 40%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      font-family: 'Jost', sans-serif;
-    }
-
-    h1 {
-      font-size: 2rem;
-      text-align: center;
-      color: #0D4990;
-    }
-
-    p {
-      text-align: center;
-      color: #333;
-    }
-
-    .btn-container {
-      display: flex;
-      justify-content: space-around;
-      margin-top: 2rem;
-    }
-
-    .btn {
-      padding: 0.5rem 1rem;
-      font-size: 1rem;
-      cursor: pointer;
-      border: none;
-      border-radius: 4px;
-      color: #fff;
-      transition: background-color 0.3s ease;
-    }
-
-    .btn-primary {
-      background-color: #0D4990;
-    }
-
-    .btn-secondary {
-      background-color: #777;
-    }
-
-    @media (max-width: 768px) {
       section {
-        width: 90%;
+        width: 30%;
+        margin: auto;
+        padding: 1.8rem;
+        overflow-x: hidden;
+        background-color: #fcfcfc;
+        border: 1px solid #ccc;
+        box-shadow: 0 0 5px 0 rgba(46, 46, 46, 0.2);
+
+        /* Center horizontally and vertically */
+        position: absolute;
+        top: 40%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        font-family: "Jost", sans-serif;
       }
-    }
 
-    .mainHeading {
-      color: #0D4990;
-    }
+      h1 {
+        font-size: 2rem;
+        text-align: center;
+        color: #0d4990;
+      }
 
-    .subHeading {
-      font-size: 13px;
-    }
+      p {
+        text-align: center;
+        color: #333;
+      }
 
-    .btn-primary {
-      background-color: #0D4990;
-    }
+      .btn-container {
+        display: flex;
+        justify-content: space-around;
+        margin-top: 2rem;
+      }
 
-    .clientName{
-      color: #0D4990;
-    }
-  </style>
-  <title>Consent Page</title>
-</head>
+      .btn {
+        padding: 0.5rem 1rem;
+        font-size: 1rem;
+        cursor: pointer;
+        border: none;
+        border-radius: 4px;
+        color: #fff;
+        transition: background-color 0.3s ease;
+      }
 
-<body>
-  <section>
-    <h2 class="mainHeading">
-      <center>
-       
-        Axiom Protect 2.0
-      </center>
+      .btn-primary {
+        background-color: #0d4990;
+      }
 
-    </h2>
-    <!-- <h3 class="h3">Welcome </h3>
+      .btn-secondary {
+        background-color: #777;
+      }
+
+      @media (max-width: 768px) {
+        section {
+          width: 90%;
+        }
+      }
+
+      .mainHeading {
+        color: #0d4990;
+      }
+
+      .subHeading {
+        font-size: 13px;
+      }
+
+      .btn-primary {
+        background-color: #0d4990;
+      }
+
+      .clientName {
+        color: #0d4990;
+      }
+    </style>
+    <title>Consent Page</title>
+  </head>
+
+  <body>
+    <section>
+      <h2 class="mainHeading">
+        <center>Axiom Protect 2.0</center>
+      </h2>
+      <!-- <h3 class="h3">Welcome </h3>
 
     <p>
       <a href="https://access.axiomprotect.com:6651/login" class="clientName"></a>
       wants to
     </p> -->
+      <p id="containerId" style="display: none"></p>
+      <figure id="scopes"></figure>
 
-    <figure id="scopes"></figure>
-
-    <div>
-      <center>
-        <h4><span class="clientName"> </span> want to access your login cridentals</h4>
-      </center>
-      <ul id="oidcScopesList" style="margin-left: 10px ;"></ul>
-      <!-- <p class="requestUris"></p> -->
-      <!-- <p class="conditionsParagraph">
+      <div>
+        <center>
+          <h4>
+            <span class="clientName"> </span> want to access your login
+            cridentals
+          </h4>
+        </center>
+        <ul id="oidcScopesList" style="margin-left: 10px"></ul>
+        <!-- <p class="requestUris"></p> -->
+        <!-- <p class="conditionsParagraph">
         Lorem ipsum dolor sit amet consectetur adipisicing elit. Sapiente
         eveniet molestias cum? Vitae reprehenderit harum expedita neque quas
         maiores vel est libero aut distinctio eius, accusamus porro fuga,
         quaerat ipsa!
       </p> -->
-    </div>
-    <div class="btn-container">
-      <a class="btn btn-secondary" href="/authenticate/<%= uid %>/abort">Deny</a>
-      <form autoComplete="off" action="/authenticate/<%= uid %>/confirm" method="post">
-        <button type="submit" class="btn btn-primary">
-          Continue
-        </button>
-      </form>
-    </div>
-  </section>
+      </div>
+      <div class="btn-container">
+        <a class="btn btn-secondary" href="/authenticate/<%= uid %>/abort"
+          >Deny</a
+        >
+        <form
+          autoComplete="off"
+          action="/authenticate/<%= uid %>/confirm"
+          method="post"
+        >
+          <button type="submit" class="btn btn-primary">Continue</button>
+        </form>
+      </div>
+    </section>
 
-  <script>
+    <script>
 
 
-    const client = <%- JSON.stringify(client) %>;
-    console.log({ client });
-
-    
-
-    document.querySelector(".clientName").innerHTML = client?.clientName || "OpenID Connect Client";
-    const details = <%- JSON.stringify(details) %>;
-    console.log({ details });
-    const requestUrisContainer = document.querySelector(".requestUris");
+          const client = <%- JSON.stringify(client) %>;
+          console.log({ client });
 
 
 
-    const oidcScopesListContainer = document.getElementById("oidcScopesList");
-    // const details = {
-    //   "missingOIDCScope": ["openid", "profile"]
-    // };
-
-    // Check if "missingOIDCScope" is in details
-    if ("missingOIDCScope" in details) {
-      details.missingOIDCScope.forEach((scope) => {
-        const listItem = document.createElement("li");
-        listItem.textContent = scope;
-        oidcScopesListContainer.appendChild(listItem);
-      });
-    }
-
-    // Check if requestUris is an array
-    if (Array.isArray(client?.requestUris)) {
-      client.requestUris.forEach((uri) => {
-        const uriElement = document.createElement("p");
-        uriElement.textContent = uri;
-        requestUrisContainer.appendChild(uriElement);
-      });
-    }
-
-    const scopeContainer = document.getElementById("scopes");
+          document.querySelector(".clientName").innerHTML = client?.clientName || "OpenID Connect Client";
+          const details = <%- JSON.stringify(details) %>;
+          console.log({ details });
+          const requestUrisContainer = document.querySelector(".requestUris");
 
 
 
+          const oidcScopesListContainer = document.getElementById("oidcScopesList");
+          // const details = {
+          //   "missingOIDCScope": ["openid", "profile"]
+          // };
 
-    if ("missingOIDCScope" in details && details["missingOIDCScope"].length > 0) {
+          // Check if "missingOIDCScope" is in details
+          if ("missingOIDCScope" in details) {
+            details.missingOIDCScope.forEach((scope) => {
+              const listItem = document.createElement("li");
+              listItem.textContent = scope;
+              oidcScopesListContainer.appendChild(listItem);
+            });
+          }
 
-      details["missingOIDCScope"].forEach(scope => {
-
-        var temp = document.createElement('div');
-        const data = ` <figcaption>${profile}</figcaption>
-                      <ul>
-                        <li>
-                          Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                          Expedita soluta dolore,
-                        </li>
-                      </ul>`
-        temp.innerHTML = data;
-        while (temp.firstChild) {
-          scopeContainer.appendChild(temp.firstChild);
-        }
-      })
-    }
-
-    if ("missingResourceScopes" in details) {
-      Object.keys(details["missingResourceScopes"]).forEach(item => {
-
-        var temp = document.createElement('div');
-        const data = ` <figcaption>${item} </figcaption>
-
-                          <ul>
-                            ${details["missingResourceScopes"][item].map(scope => `<li>${scope}</li>`).join('')}
-                      </ul>`
+          // Check if requestUris is an array
+          if (Array.isArray(client?.requestUris)) {
+        console.log({ REQUEST_URIS: client?.requestUris });
+        const requestUrisContainer = document.getElementById("containerId"); // Assuming you have a container element with id "containerId"
+        client.requestUris.forEach((uri) => {
+          console.log({ uri });
+          const uriElement = document.createElement("p");
+          uriElement.textContent = uri;
+          console.log({ uriElement });
+          if (requestUrisContainer) {
+            requestUrisContainer.appendChild(uriElement);
+          } else {
+            console.error("Container element not found.");
+          }
+        });
+      }
 
 
-
-        temp.innerHTML = data;
-        while (temp.firstChild) {
-          scopeContainer.appendChild(temp.firstChild);
-        }
-
-      })
+          const scopeContainer = document.getElementById("scopes");
 
 
 
 
+          if ("missingOIDCScope" in details && details["missingOIDCScope"].length > 0) {
 
-    }
-  </script>
-</body>
+            details["missingOIDCScope"].forEach(scope => {
 
+              var temp = document.createElement('div');
+              const data = ` <figcaption>${scope}</figcaption>
+                            <ul>
+                              <li>
+                                Read
+                              </li>
+                            </ul>`
+              temp.innerHTML = data;
+              while (temp.firstChild) {
+                scopeContainer.appendChild(temp.firstChild);
+              }
+            })
+          }
+
+          if ("missingResourceScopes" in details) {
+            Object.keys(details["missingResourceScopes"]).forEach(item => {
+
+              var temp = document.createElement('div');
+              const data = ` <figcaption>${item} </figcaption>
+
+                                <ul>
+                                  ${details["missingResourceScopes"][item].map(scope => `<li>${scope}</li>`).join('')}
+                            </ul>`
+
+
+
+              temp.innerHTML = data;
+              while (temp.firstChild) {
+                scopeContainer.appendChild(temp.firstChild);
+              }
+
+            })
+
+
+
+
+
+          }
+    </script>
+  </body>
 </html>
